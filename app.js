@@ -1,4 +1,5 @@
 // app.js
+require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -9,7 +10,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 const inventoryRoutes = require('./routes/inventory');
-const mongoURI = 'mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.oh7l6.mongodb.net/';
+const mongoURI = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@cluster0.oh7l6.mongodb.net/`;
+// const mongoURI = 'mongodb+srv://edwinr0661:JCLXLa4JzneN4W0M@cluster0.oh7l6.mongodb.net/';
+// const mongoURI = process.env.MONGODB_URI
 
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
