@@ -1,0 +1,124 @@
+<!-- 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Inventory</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Warehouse Inventory</h1>
+    <a href="/inventory/new" class="btn">Add New Item</a>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Location</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items.length === 0) { %>
+          <tr>
+            <td colspan="5">No inventory items found.</td>
+          </tr>
+        <% } else { %>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><%= item.name %></td>
+              <td><%= item.quantity %></td>
+              <td><%= item.location %></td>
+              <td><%= item.description %></td>
+              <td>
+                <a href="/inventory/<%= item._id %>/edit" class="btn">Edit</a>
+                <form action="/inventory/<%= item._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn delete-btn">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warehouse Inventory</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<!-- views/index.ejs -->
+
+<body>
+  <div class="container">
+    <h1>Warehouse Inventory</h1>
+    <a href="/inventory/new" class="btn">Add New Item</a>
+    <!-- The "View Monthly History" button will be dynamically generated -->
+    <a id="history-link" class="btn">View History</a>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th>Location</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (items.length === 0) { %>
+          <tr>
+            <td colspan="5">No inventory items found.</td>
+          </tr>
+        <% } else { %>
+          <% items.forEach(item => { %>
+            <tr>
+              <td><a href="/inventory/<%= item._id %>"><%= item.name %></a></td>
+              <td><%= item.quantity %></td>
+              <td><%= item.location %></td>
+              <td><%= item.description %></td>
+              <td>
+                <a href="/inventory/<%= item._id %>/edit" class="btn">Edit</a>
+                <form action="/inventory/<%= item._id %>?_method=DELETE" method="POST" style="display:inline;">
+                  <button type="submit" class="btn delete-btn">Delete</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Script to dynamically set the current month and year in the link -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Get the current date
+      const today = new Date();
+      const month = today.getMonth() + 1; // Months are 0-indexed
+      const year = today.getFullYear();
+
+      // Set the href attribute of the history link dynamically
+      const historyLink = document.getElementById('history-link');
+      if (historyLink) {
+        historyLink.href = `/history/monthly?month=${month}&year=${year}&page=1`;
+      }
+    });
+  </script>
+</body>
+
+</html>

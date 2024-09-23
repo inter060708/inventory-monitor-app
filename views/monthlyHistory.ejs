@@ -1,0 +1,63 @@
+<!-- views/monthlyHistory.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item In/Out History</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Item In/Out History for <%= month %>/<%= year %></h1>
+    
+    <% if (paginatedHistory.length === 0) { %>
+      <p>No history records found for this month.</p>
+    <% } else { %>
+      <% paginatedHistory.forEach(dayEntry => { %>
+        <h3><%= dayEntry.day %></h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Item</th>
+              <th>Action</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% dayEntry.records.forEach(record => { 
+              const formattedTime = new Date(record.date).toLocaleTimeString('en-GB', {
+                timeZone: 'Asia/Bangkok',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+              });
+            %>
+              <tr>
+                <td><%= formattedTime %></td>
+                <td><%= record.itemId.name %></td>
+                <td><%= record.type === 'in' ? 'Added' : 'Removed' %></td>
+                <td><%= record.quantity %></td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% }) %>
+    <% } %>
+
+    <!-- Pagination Controls -->
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+        <a href="/history/monthly?month=<%= month %>&year=<%= year %>&page=<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <a href="/history/monthly?month=<%= month %>&year=<%= year %>&page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+    </div>
+
+    <a href="/inventory" class="btn">Back to Inventory</a>
+  </div>
+</body>
+</html>
